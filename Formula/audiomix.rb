@@ -12,9 +12,12 @@ class Audiomix < Formula
   def install
     system "xcodegen", "generate"
 
+    ENV["SWIFT_PACKAGE_MANIFEST_SANDBOX"] = "none"
+
     xcodebuild_args = %w[
       -configuration Release
       -derivedDataPath build
+      -skipPackagePluginValidation
       CODE_SIGN_IDENTITY=-
     ]
 
