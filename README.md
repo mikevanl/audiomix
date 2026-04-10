@@ -27,7 +27,8 @@ A lightweight, native macOS menu bar app that brings Windows-style per-app audio
 ### Homebrew
 
 ```sh
-brew install --formula Formula/audiomix.rb
+brew tap mikevanl/tap
+brew install mikevanl/tap/audiomix
 ```
 
 ### Build from Source
