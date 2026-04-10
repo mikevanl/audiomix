@@ -32,7 +32,7 @@ final class AudioTapManager {
         installWorkspaceObserver()
     }
 
-    nonisolated deinit {
+    deinit {
         // Sessions and listeners are cleaned up by their own deinit/dealloc.
         // For explicit cleanup, call teardownAll() before releasing.
     }
