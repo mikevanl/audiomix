@@ -33,7 +33,7 @@ brew install --formula Formula/audiomix.rb
 ### Build from Source
 
 ```sh
-git clone https://github.com/yourusername/audiomix.git
+git clone https://github.com/mikevanl/audiomix.git
 cd audiomix
 brew install xcodegen    # if not already installed
 xcodegen generate

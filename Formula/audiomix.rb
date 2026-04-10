@@ -1,7 +1,7 @@
 class Audiomix < Formula
   desc "Per-app volume, mute, and output device routing for macOS"
-  homepage "https://github.com/yourusername/audiomix"
-  url "https://github.com/yourusername/audiomix.git", tag: "v0.1.0"
+  homepage "https://github.com/mikevanl/audiomix"
+  url "https://github.com/mikevanl/audiomix.git", tag: "v0.1.0"
   license "MIT"
 
   depends_on :macos => :sonoma
