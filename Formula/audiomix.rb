@@ -16,10 +16,16 @@ class Audiomix < Formula
 
     ENV["SWIFT_PACKAGE_MANIFEST_SANDBOX"] = "none"
 
+    system "xcodebuild", "-scheme", "AudioMix",
+           "-destination", "platform=macOS",
+           "-resolvePackageDependencies",
+           "-skipPackagePluginValidation"
+
     xcodebuild_args = %w[
       -configuration Release
       -derivedDataPath build
       -skipPackagePluginValidation
+      -disableAutomaticPackageResolution
       CODE_SIGN_IDENTITY=-
     ]
 
