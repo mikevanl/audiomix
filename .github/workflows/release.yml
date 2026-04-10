@@ -1,0 +1,59 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: macos-15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate Xcode project
+        run: xcodegen generate
+
+      - name: Build AudioMix.app (Release)
+        run: |
+          xcodebuild \
+            -scheme AudioMix \
+            -configuration Release \
+            -destination 'platform=macOS' \
+            -derivedDataPath build \
+            CODE_SIGN_IDENTITY="-" \
+            build
+
+      - name: Build audiomix CLI (Release)
+        run: |
+          xcodebuild \
+            -scheme audiomix \
+            -configuration Release \
+            -destination 'platform=macOS' \
+            -derivedDataPath build \
+            CODE_SIGN_IDENTITY="-" \
+            build
+
+      - name: Package AudioMix.app
+        run: |
+          mkdir -p dist
+          cp -R build/Build/Products/Release/AudioMix.app dist/
+          cp build/Build/Products/Release/audiomix dist/
+          cd dist
+          zip -r AudioMix-${GITHUB_REF_NAME}-macOS.zip AudioMix.app audiomix
+          tar czf audiomix-cli-${GITHUB_REF_NAME}-macOS.tar.gz audiomix
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: |
+            dist/AudioMix-${{ github.ref_name }}-macOS.zip
+            dist/audiomix-cli-${{ github.ref_name }}-macOS.tar.gz

@@ -1,0 +1,64 @@
+name: AudioMix
+options:
+  bundleIdPrefix: com.audiomix
+  deploymentTarget:
+    macOS: "14.2"
+  xcodeVersion: "16.0"
+  generateEmptyDirectories: true
+
+packages:
+  MenuBarExtraAccess:
+    url: https://github.com/orchetect/MenuBarExtraAccess
+    from: "1.0.0"
+  ArgumentParser:
+    url: https://github.com/apple/swift-argument-parser
+    from: "1.5.0"
+
+targets:
+  AudioMix:
+    type: application
+    platform: macOS
+    sources:
+      - App
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.audiomix.AudioMix
+        INFOPLIST_FILE: App/Info.plist
+        CODE_SIGN_ENTITLEMENTS: App/AudioMix.entitlements
+        MACOSX_DEPLOYMENT_TARGET: "14.2"
+        SWIFT_VERSION: "5.10"
+        PRODUCT_NAME: AudioMix
+    dependencies:
+      - package: MenuBarExtraAccess
+      - target: AudioMixKit
+        embed: true
+
+  audiomix:
+    type: tool
+    platform: macOS
+    sources:
+      - CLI
+    settings:
+      base:
+        PRODUCT_NAME: audiomix
+        MACOSX_DEPLOYMENT_TARGET: "14.2"
+        SWIFT_VERSION: "5.10"
+        LD_RUNPATH_SEARCH_PATHS: "$(inherited) @executable_path @executable_path/../Frameworks"
+    dependencies:
+      - target: AudioMixKit
+        embed: true
+      - package: ArgumentParser
+        product: ArgumentParser
+
+  AudioMixKit:
+    type: framework
+    platform: macOS
+    sources:
+      - AudioMixKit
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.audiomix.AudioMixKit
+        MACOSX_DEPLOYMENT_TARGET: "14.2"
+        SWIFT_VERSION: "5.10"
+        PRODUCT_NAME: AudioMixKit
+        GENERATE_INFOPLIST_FILE: YES
