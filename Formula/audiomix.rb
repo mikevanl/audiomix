@@ -5,6 +5,8 @@ class Audiomix < Formula
   sha256 "594f8009686ce280fc780c8aba5f7ef92e3389a01432988a18a1ebdf536664a1"
   license "MIT"
 
+  env :std
+
   depends_on :macos => :sonoma
   depends_on xcode: ["16.0", :build]
   depends_on "xcodegen" => :build
